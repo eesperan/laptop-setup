@@ -41,6 +41,7 @@ The ansible playbook installs the following packages:
 | font-fira-code-nerd-font | Patched Fira Code font for terminal / dev use |
 | fzf                      | Command-line fuzzy finder written in Go |
 | gimp                     | Free and open-source image editor |
+| grc                      | Colorize logfiles and command output | 
 | gnu-time                 | GNU implementation of time utility |
 | google-chrome            | Chrome Web browser |
 | google-cloud-sdk         | Set of tools to manage resources and applications hosted on Google Cloud |

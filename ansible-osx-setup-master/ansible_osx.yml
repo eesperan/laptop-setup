@@ -61,6 +61,7 @@
           'dnsmasq',
           'fzf',
           'gnu-time',
+          'grc',
           'hasura-cli',
           'hstr',
           'htop',
