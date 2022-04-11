@@ -71,6 +71,7 @@
           'k9s',
           'kube-score',
           'kubeaudit',
+          'kubectx',
           'libtool',
           'libxslt',
           'libyaml',
