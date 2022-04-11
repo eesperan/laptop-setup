@@ -1,5 +1,5 @@
-# laptop-setup
-Configures a new laptop with:
+# Jasper Laptop Setup
+Configures a new M1 Macintosh with:
 
 - Xcode
 - Rosetta
