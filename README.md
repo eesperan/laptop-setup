@@ -6,6 +6,9 @@ Configures a new laptop with:
 - Ansible
 - Homebrew
 - ZSH (along with Oh-My-Zsh and Starship)
+- Python
+- Ruby
+- Node.js
 
 Along with all the apps listed in the Homebrew Packages section below.
 
