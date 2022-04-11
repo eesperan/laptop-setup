@@ -18,9 +18,12 @@ export PKG_CONFIG_PATH="${PKG_CONFIG_PATH} /opt/homebrew/opt/zlib/lib/pkgconfig"
 # ZSH setup
 export ZSH=$HOME/.oh-my-zsh
 ZSH_THEME="robbyrussell"
-plugins=(git kubectl)
+plugins=(git kubectl autojump zsh-256color zsh-autosuggestions zsh-syntax-highlighting)
 DISABLE_UNTRACKED_FILES_DIRTY="true"
 ZSH_DISABLE_COMPFIX=true
+
+HISTSIZE=50000
+SAVEHIST=10000
 
 # Load personal pre oh-my-zsh init config which should be stored in ~/.zshrc.personal.before
 # E.g. setting ZSH theme etc
@@ -36,3 +39,9 @@ if [ -f ~/.zshrc.personal.after ]; then . ~/.zshrc.personal.after; fi
 # Load asdf
 . $HOME/.asdf/asdf.sh
 . $HOME/.asdf/completions/asdf.bash
+
+# Set up autojump
+[ -f $(brew --prefix)/etc/profile.d/autojump.sh ] && . $(brew --prefix)/etc/profile.d/autojump.sh
+
+# Load Starship
+eval "$(starship init zsh)"

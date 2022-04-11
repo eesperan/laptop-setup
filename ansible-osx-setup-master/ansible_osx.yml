@@ -261,9 +261,18 @@
         
     - name: re-generate bins now we've installed some yarn packages
       shell: asdf reshim nodejs
-        
-    - name: Add Starship init to .zshrc 
-      ansible.builtin.lineinfile:
-          path: "/Users/{{ lookup('env', 'USER') }}/.zshrc" 
-          insertafter: EOF
-          line: eval "$(starship init zsh)" 
+
+    - name: Oh-My-Zsh syntax highlighting
+      ansible.builtin.git:
+        repo: https://github.com/zsh-users/zsh-syntax-highlighting.git  
+        dest: "/Users/{{ lookup('env', 'USER') }}/.oh-my-zsh/plugins/zsh-syntax-highlighting"
+
+    - name: Oh-My-Zsh autosuggestions 
+      ansible.builtin.git:
+        repo: https://github.com/zsh-users/zsh-autosuggestions.git 
+        dest: "/Users/{{ lookup('env', 'USER') }}/.oh-my-zsh/plugins/zsh-autosuggestions"
+
+    - name: Oh-My-Zsh 256 color support 
+      ansible.builtin.git:
+        repo: https://github.com/chrissicool/zsh-256color.git 
+        dest: "/Users/{{ lookup('env', 'USER') }}/.oh-my-zsh/plugins/zsh-256color"
