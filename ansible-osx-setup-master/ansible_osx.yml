@@ -1,0 +1,269 @@
+---
+- hosts: localhost
+  tasks:
+    - name: Install homebrew
+      include_role:
+        name: geerlingguy.mac.homebrew
+
+    - name: Make sure homebrew bin is in path
+      ansible.builtin.lineinfile:
+        path: /etc/paths
+        state: present
+        line: '/opt/homebrew/bin'
+      become: true
+      become_user: root
+
+    - name: 'add custom homebrew repos'
+      community.general.homebrew_tap:
+        name: [
+          adoptopenjdk/openjdk,
+          homebrew/cask-versions,
+          homebrew/cask-fonts,
+          thoughtbot/formulae,
+          weaveworks/tap,
+        ]
+
+    - name: Install core packages via brew casks
+      community.general.homebrew_cask:
+        name: "{{ item }}"
+      ignore_errors: yes
+      with_items:
+        - 1password
+        - ferdi
+        - font-fira-code-nerd-font
+        - gimp
+        - google-chrome
+        - google-cloud-sdk
+        - iterm2
+        - ngrok
+        - postman
+        - rancher
+        - spotify
+        - sublime-text
+        - tableplus
+        - visual-studio-code
+        - vlc
+        - utm
+        - zoom
+
+    - name: "Install homebrew packages"
+      community.general.homebrew:
+        name: [
+          'autoconf',
+          'autojump',
+          'automake',
+          'bfg',
+          'checkov',
+          'coreutils',
+          'curl',
+          'dagger',
+          'direnv',
+          'dnsmasq',
+          'fzf',
+          'gnu-time',
+          'gpg',
+          'hasura-cli',
+          'hstr',
+          'htop',
+          'imagemagick@6',
+          'jq',
+          'k3d',
+          'k9s',
+          'kube-score',
+          'kubeaudit',
+          'libtool',
+          'libxslt',
+          'libyaml',
+          'mas',
+          'mtr',
+          'nmap',
+          'openssl',
+          'pkg-config',
+          'podman',
+          'pre-commit',
+          'postgresql',
+          'rcm',
+          'readline',
+          'redis',
+          'shellcheck',
+          'starship',
+          'teleport',
+          'terraform',
+          'terraform-rover',
+          'terrascan',
+          'tflint',
+          'tilt',
+          'tmux',
+          'tree',
+          'unixodbc',
+          'unzip',
+          'vercel-cli',
+          'vim',
+          'xz',
+          'yarn',
+          'zlib',
+          'zsh',
+        ]
+        state: present
+        update_homebrew: yes
+
+    - name: Link docker cli from Rancher Desktop
+      ansible.builtin.file:
+        src: "/Applications/Rancher Desktop.app/Contents/Resources/resources/darwin/bin/docker"  
+        dest: /opt/homebrew/bin/docker 
+        state: link
+
+    - name: Link helm cli from Rancher Desktop
+      ansible.builtin.file:
+        src: "/Applications/Rancher Desktop.app/Contents/Resources/resources/darwin/bin/helm"  
+        dest: /opt/homebrew/bin/helm 
+        state: link
+
+    - name: Link kubectl cli from Rancher Desktop
+      ansible.builtin.file:
+        src: "/Applications/Rancher Desktop.app/Contents/Resources/resources/darwin/bin/kubectl"  
+        dest: /opt/homebrew/bin/kubectl 
+        state: link
+
+    - name: Link nerdctl cli from Rancher Desktop
+      ansible.builtin.file:
+        src: "/Applications/Rancher Desktop.app/Contents/Resources/resources/darwin/bin/nerdctl"  
+        dest: /opt/homebrew/bin/nerdctl 
+        state: link
+
+    - name: Get the path to ZSH
+      become: false
+      local_action: command which zsh
+      register: zsh_path
+
+    - name: "Ensure homebrew zsh is in allowed shells"
+      lineinfile:
+        path: /etc/shells
+        line: "{{ zsh_path.stdout }}"
+      become: true
+
+    - name: Install Oh My ZSH
+      shell: sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+      args:
+        creates: "/Users/{{ lookup('env', 'USER') }}/.oh-my-zsh"
+
+    - name: Set ZSH as the default shell
+      shell: chsh -s $(which zsh) {{ lookup('env', 'USER') }}
+      become: true
+
+    - name: "Create a default ZSH configuration"
+      template:
+        src: templates/.zshrc.j2
+        dest: /Users/{{ lookup('env', 'USER') }}/.zshrc
+        owner: "{{ lookup('env', 'USER') }}"
+        force: yes
+
+    - name: Create a VS Code User directory if it does not exist
+      ansible.builtin.file:
+          path: /Users/{{ lookup('env', 'USER') }}/Library/Application Support/Code/User/ 
+          state: directory
+          mode: '0755'
+
+    - name: Create a default VSCode configuration
+      template:
+        src: templates/vscode-settings.json.j2
+        dest: /Users/{{ lookup('env', 'USER') }}/Library/Application Support/Code/User/settings.json
+        owner: "{{ lookup('env', 'USER') }}"
+        force: yes
+
+    - name: Create a default VSCode keybinding configuration
+      template:
+        src: templates/vscode-keybindings.json.j2
+        dest: /Users/{{ lookup('env', 'USER') }}/Library/Application Support/Code/User/keybindings.json
+        owner: "{{ lookup('env', 'USER') }}"
+        force: yes
+
+    # Add something which ensures path is set here
+    - name: Install VSCode extensions
+      shell: code --install-extension {{ item }}
+      with_items:
+        - apollographql.vscode-apollo
+        - bradlc.vscode-tailwindcss
+        - castwide.solargraph
+        - clinyong.vscode-css-modules
+        - eamodio.gitlens
+        - jakebecker.elixir-ls
+        - kaiwood.endwise
+        - karunamurti.haml
+        - ms-vscode-remote.vscode-remote-extensionpack
+        - ms-vscode.vscode-typescript-tslint-plugin
+        - msjsdiag.debugger-for-chrome
+        - rebornix.ruby
+        - richie5um2.vscode-sort-json
+        - Tyriar.sort-lines
+        - vscodevim.vim
+        - wholroyd.jinja
+        - wingrunr21.vscode-ruby
+        - xabikos.javascriptsnippets
+        - streetsidesoftware.code-spell-checker
+        - fabiospampinato.vscode-todo-plus
+
+    - git:
+        repo: https://github.com/asdf-vm/asdf.git
+        dest: "/Users/{{ lookup('env', 'USER') }}/.asdf"
+        version: v0.8.1
+
+    - name: "Create a default asdf configuration"
+      template:
+        src: templates/.asdfrc.j2
+        dest: /Users/{{ lookup('env', 'USER') }}/.asdfrc
+        owner: "{{ lookup('env', 'USER') }}"
+        force: yes
+
+    - name: "Install asdf plugins"
+      shell: |
+        source /Users/{{ lookup('env', 'USER') }}/.asdf/asdf.sh
+        asdf plugin-add {{ item }} || exit 0
+      with_items:
+        - ruby
+        - nodejs
+        - python
+
+    - name: "Install Default Python"
+      shell: |
+        source /Users/{{ lookup('env', 'USER') }}/.asdf/asdf.sh
+        asdf install python 3.10.0
+        asdf global python 3.10.0
+        pip3 install ansible
+        asdf reshim python
+
+    - name: "Install Default Ruby"
+      shell: |
+        source /Users/{{ lookup('env', 'USER') }}/.asdf/asdf.sh
+        asdf install ruby 3.0.2
+        asdf global ruby 3.0.2
+        gem install bundler
+        gem install cocoapods
+        gem install rubocop
+        gem install solargraph
+
+    - name: "Install default node"
+      shell: |
+        source /Users/{{ lookup('env', 'USER') }}/.asdf/asdf.sh
+        bash /Users/{{ lookup('env', 'USER') }}/.asdf/plugins/nodejs/bin/import-release-team-keyring
+        asdf install nodejs 16.14.2 
+        asdf global nodejs 16.14.2
+
+    - name: Install yarn packages
+      shell: yarn global add {{ item }}
+      with_items:
+        - "@nestjs/cli"
+        - react-native-cli
+        - create-react-app
+        - apollo
+        - generator-generator
+        - yo
+        
+    - name: re-generate bins now we've installed some yarn packages
+      shell: asdf reshim nodejs
+        
+    - name: Add Starship init to .zshrc 
+      ansible.builtin.lineinfile:
+          path: "/Users/{{ lookup('env', 'USER') }}/.zshrc" 
+          insertafter: EOF
+          line: eval "$(starship init zsh)" 

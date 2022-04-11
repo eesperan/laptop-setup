@@ -1,0 +1,30 @@
+#!/bin/sh
+
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+cd $SCRIPT_DIR/../
+
+echo "Installing Xcode Command Line Tools..."
+xcode-select --install || true
+
+# Accept Xcode license
+sudo xcodebuild -license accept
+echo
+
+echo "Installing Rosetta"...
+/usr/sbin/softwareupdate --install-rosetta --agree-to-license
+echo
+
+echo "Installing pip..."
+curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+python3 get-pip.py
+echo
+
+echo "Installing Ansible..."
+sudo pip3 install ansible
+ansible-galaxy install -r requirements.yml
+echo
+
+echo "Running provisioning playbook..."
+ansible-playbook -i "localhost," -c local ansible_osx.yml --ask-become-pass
+
+echo
