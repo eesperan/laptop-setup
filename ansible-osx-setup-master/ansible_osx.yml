@@ -51,10 +51,12 @@
       community.general.homebrew:
         name: [
           'act',
+          'argocd',
           'autoconf',
           'autojump',
           'automake',
           'bfg',
+          'cinch',
           'checkov',
           'coreutils',
           'curl',
@@ -63,8 +65,10 @@
           'dnsmasq',
           'fzf',
           'gnu-time',
+          'gh',
           'grc',
           'hasura-cli',
+          'helmfile',
           'hstr',
           'htop',
           'imagemagick@6',
@@ -74,8 +78,10 @@
           'kube-score',
           'kubeaudit',
           'kubectx',
+          'kustomize',
           'libtool',
           'libyaml',
+          'linkerd',
           'mas',
           'mtr',
           'nmap',
@@ -184,19 +190,9 @@
     - name: Install VSCode extensions
       shell: code --install-extension {{ item }}
       with_items:
-        - apollographql.vscode-apollo
-        - bradlc.vscode-tailwindcss
-        - clinyong.vscode-css-modules
         - eamodio.gitlens
-        - kaiwood.endwise
-        - karunamurti.haml
-        - ms-vscode-remote.vscode-remote-extensionpack
-        - ms-vscode.vscode-typescript-tslint-plugin
-        - msjsdiag.debugger-for-chrome
         - richie5um2.vscode-sort-json
         - Tyriar.sort-lines
-        - wholroyd.jinja
-        - xabikos.javascriptsnippets
         - streetsidesoftware.code-spell-checker
 
     - git:

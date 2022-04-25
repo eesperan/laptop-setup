@@ -45,6 +45,9 @@ function df {
   [ -z "$1" ] && mydf || /bin/df "$@"
 }
 
+# Terraform
+alias tf=/opt/homebrew/bin/terraform
+
 # Load asdf
 . $HOME/.asdf/asdf.sh
 . $HOME/.asdf/completions/asdf.bash
