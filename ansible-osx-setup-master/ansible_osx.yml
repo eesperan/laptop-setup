@@ -90,6 +90,7 @@
           'podman',
           'pre-commit',
           'postgresql',
+          'pwgen',
           'rcm',
           'readline',
           'redis',
@@ -191,6 +192,7 @@
       shell: code --install-extension {{ item }}
       with_items:
         - eamodio.gitlens
+        - ms-kubernetes-tools.vscode-kubernetes-tools
         - richie5um2.vscode-sort-json
         - Tyriar.sort-lines
         - streetsidesoftware.code-spell-checker
