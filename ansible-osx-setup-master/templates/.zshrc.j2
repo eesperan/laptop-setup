@@ -2,7 +2,7 @@
 # instead make changes to ~/.zshrc.personal which is loaded after this file
 
 # Setup some standard paths
-export PATH=~/bin:/usr/local/opt/imagemagick@6/bin:/opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/bin:${PATH}
+export PATH=~/bin:/usr/local/opt/imagemagick@6/bin:/opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/bin:~/.rd/bin:${PATH}
 
 export optflags="-Wno-error=implicit-function-declaration"
 export LDFLAGS="-L/opt/homebrew/opt/libffi/lib"
@@ -54,6 +54,9 @@ alias tf=/opt/homebrew/bin/terraform
 
 # Set up autojump
 [ -f $(brew --prefix)/etc/profile.d/autojump.sh ] && . $(brew --prefix)/etc/profile.d/autojump.sh
+
+# Kubectl plugin for argo-rollouts
+source <(kubectl-argo-rollouts completion zsh)
 
 # Load Starship
 eval "$(starship init zsh)"
