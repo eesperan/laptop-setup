@@ -83,6 +83,7 @@
           'kubectl-argo-rollouts',
           'kubectx',
           'kubeseal',
+          'kubeshark',
           'kubetail',
           'kustomize',
           'libtool',
