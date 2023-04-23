@@ -67,6 +67,7 @@
           'fzf',
           'gnu-time',
           'gh',
+          'git-extras'
           'gpg-suite',
           'graphviz',
           'grc',
