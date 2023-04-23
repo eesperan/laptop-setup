@@ -10,7 +10,7 @@ There's a simple shell script in `bin/bootstrap` which will perform the initial 
 2. Installing Ansible
 3. Fetching required Ansible roles and collections
 
-And then runs the main playbook `ansible_osx.yml`.
+And then runs the main playbook `bootstrap.yml`.
 
 For future updates, `bin/apply` can be used to run just the Ansible playbook without the setup commands.
 
@@ -18,7 +18,7 @@ It's important to note that this isn't designed to be particularly robust, parti
 
 ## What's installed
 
-The easiest way to understand what's installed is to read the contents of `ansible_osx.yml`, this configuration is fairly specific to the range of development I do personally, but may serve as a useful starting point for others. The core components are:
+The easiest way to understand what's installed is to read the contents of `bootstrap.yml`, this configuration is fairly specific to the range of development I do personally, but may serve as a useful starting point for others. The core components are:
 
 - ZSH + Oh My Zsh as the primary shell
 - Homebrew for package management
@@ -30,5 +30,4 @@ The easiest way to understand what's installed is to read the contents of `ansib
 
 ## Customising
 
-Everything can be customised by editing `ansible_osx.yml`.
-
+Everything can be customised by editing `bootstrap.yml`.

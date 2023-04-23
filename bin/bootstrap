@@ -25,6 +25,6 @@ ansible-galaxy install -r requirements.yml
 echo
 
 echo "Running provisioning playbook..."
-ansible-playbook -i "localhost," -c local ansible_osx.yml --ask-become-pass
+ansible-playbook -i "localhost," -c local bootstrap.yml --ask-become-pass
 
 echo
