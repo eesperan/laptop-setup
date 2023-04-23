@@ -9,21 +9,22 @@
       ansible.builtin.lineinfile:
         path: /etc/paths
         state: present
-        line: '/opt/homebrew/bin'
+        line: "/opt/homebrew/bin"
       become: true
       become_user: root
 
-    - name: 'add custom homebrew repos'
+    - name: "add custom homebrew repos"
       community.general.homebrew_tap:
-        name: [
-          adoptopenjdk/openjdk,
-          argoproj/tap,
-          homebrew/cask-versions,
-          homebrew/cask-fonts,
-          johanhaleby/kubetail,
-          thoughtbot/formulae,
-          weaveworks/tap,
-        ]
+        name:
+          [
+            adoptopenjdk/openjdk,
+            argoproj/tap,
+            homebrew/cask-versions,
+            homebrew/cask-fonts,
+            johanhaleby/kubetail,
+            thoughtbot/formulae,
+            weaveworks/tap,
+          ]
 
     - name: Install core packages via brew casks
       community.general.homebrew_cask:
@@ -51,105 +52,106 @@
 
     - name: "Install homebrew packages"
       community.general.homebrew:
-        name: [
-          'act',
-          'argocd',
-          'autoconf',
-          'autojump',
-          'automake',
-          'bfg',
-          'checkov',
-          'coreutils',
-          'curl',
-          'dagger',
-          'direnv',
-          'dnsmasq',
-          'fzf',
-          'gnu-time',
-          'gh',
-          'git-extras'
-          'gpg-suite',
-          'graphviz',
-          'grc',
-          'hasura-cli',
-          'helmfile',
-          'hstr',
-          'htop',
-          'imagemagick@6',
-          'jq',
-          'k3d',
-          'k9s',
-          'kube-score',
-          'kubeaudit',
-          'kubectl-argo-rollouts',
-          'kubectx',
-          'kubeseal',
-          'kubeshark',
-          'kubetail',
-          'kustomize',
-          'libtool',
-          'libyaml',
-          'linkerd',
-          'mas',
-          'mtr',
-          'nmap',
-          'numpy',
-          'openssl',
-          'pkg-config',
-          'podman',
-          'pre-commit',
-          'postgresql',
-          'pwgen',
-          'rcm',
-          'readline',
-          'redis',
-          'shellcheck',
-          'starship',
-          'step',
-          'teleport',
-          'telnet',
-          'terraform',
-          'terraform-rover',
-          'terrascan',
-          'tflint',
-          'tilt',
-          'tmux',
-          'tree',
-          'unixodbc',
-          'unzip',
-          'vercel-cli',
-          'vim',
-          'xz',
-          'yamllint',
-          'yarn',
-          'zlib',
-          'zsh',
-        ]
+        name:
+          [
+            "act",
+            "argocd",
+            "autoconf",
+            "autojump",
+            "automake",
+            "bfg",
+            "checkov",
+            "coreutils",
+            "curl",
+            "dagger",
+            "direnv",
+            "dnsmasq",
+            "fzf",
+            "gnu-time",
+            "gh",
+            "git-extras",
+            "gpg-suite",
+            "graphviz",
+            "grc",
+            "hasura-cli",
+            "helmfile",
+            "hstr",
+            "htop",
+            "imagemagick@6",
+            "jq",
+            "k3d",
+            "k9s",
+            "kube-score",
+            "kubeaudit",
+            "kubectl-argo-rollouts",
+            "kubectx",
+            "kubeseal",
+            "kubeshark",
+            "kubetail",
+            "kustomize",
+            "libtool",
+            "libyaml",
+            "linkerd",
+            "mas",
+            "mtr",
+            "nmap",
+            "numpy",
+            "openssl",
+            "pkg-config",
+            "podman",
+            "pre-commit",
+            "postgresql",
+            "pwgen",
+            "rcm",
+            "readline",
+            "redis",
+            "shellcheck",
+            "starship",
+            "step",
+            "teleport",
+            "telnet",
+            "terraform",
+            "terraform-rover",
+            "terrascan",
+            "tflint",
+            "tilt",
+            "tmux",
+            "tree",
+            "unixodbc",
+            "unzip",
+            "vercel-cli",
+            "vim",
+            "xz",
+            "yamllint",
+            "yarn",
+            "zlib",
+            "zsh",
+          ]
         state: present
         update_homebrew: yes
 
     - name: Link docker cli from Rancher Desktop
       ansible.builtin.file:
-        src: "/Applications/Rancher Desktop.app/Contents/Resources/resources/darwin/bin/docker"  
-        dest: /opt/homebrew/bin/docker 
+        src: "/Applications/Rancher Desktop.app/Contents/Resources/resources/darwin/bin/docker"
+        dest: /opt/homebrew/bin/docker
         state: link
 
     - name: Link helm cli from Rancher Desktop
       ansible.builtin.file:
-        src: "/Applications/Rancher Desktop.app/Contents/Resources/resources/darwin/bin/helm"  
-        dest: /opt/homebrew/bin/helm 
+        src: "/Applications/Rancher Desktop.app/Contents/Resources/resources/darwin/bin/helm"
+        dest: /opt/homebrew/bin/helm
         state: link
 
     - name: Link kubectl cli from Rancher Desktop
       ansible.builtin.file:
-        src: "/Applications/Rancher Desktop.app/Contents/Resources/resources/darwin/bin/kubectl"  
-        dest: /opt/homebrew/bin/kubectl 
+        src: "/Applications/Rancher Desktop.app/Contents/Resources/resources/darwin/bin/kubectl"
+        dest: /opt/homebrew/bin/kubectl
         state: link
 
     - name: Link nerdctl cli from Rancher Desktop
       ansible.builtin.file:
-        src: "/Applications/Rancher Desktop.app/Contents/Resources/resources/darwin/bin/nerdctl"  
-        dest: /opt/homebrew/bin/nerdctl 
+        src: "/Applications/Rancher Desktop.app/Contents/Resources/resources/darwin/bin/nerdctl"
+        dest: /opt/homebrew/bin/nerdctl
         state: link
 
     - name: Get the path to ZSH
@@ -181,9 +183,9 @@
 
     - name: Create a VS Code User directory if it does not exist
       ansible.builtin.file:
-          path: /Users/{{ lookup('env', 'USER') }}/Library/Application Support/Code/User/ 
-          state: directory
-          mode: '0755'
+        path: /Users/{{ lookup('env', 'USER') }}/Library/Application Support/Code/User/
+        state: directory
+        mode: "0755"
 
     - name: Create a default VSCode configuration
       template:
@@ -264,24 +266,24 @@
         - apollo
         - generator-generator
         - yo
-        
+
     - name: re-generate bins now we've installed some yarn packages
       shell: asdf reshim nodejs
 
     - name: Oh-My-Zsh syntax highlighting
       ansible.builtin.git:
-        repo: https://github.com/zsh-users/zsh-syntax-highlighting.git  
+        repo: https://github.com/zsh-users/zsh-syntax-highlighting.git
         dest: "/Users/{{ lookup('env', 'USER') }}/.oh-my-zsh/plugins/zsh-syntax-highlighting"
 
-    - name: Oh-My-Zsh autosuggestions 
+    - name: Oh-My-Zsh autosuggestions
       ansible.builtin.git:
-        repo: https://github.com/zsh-users/zsh-autosuggestions.git 
+        repo: https://github.com/zsh-users/zsh-autosuggestions.git
         dest: "/Users/{{ lookup('env', 'USER') }}/.oh-my-zsh/plugins/zsh-autosuggestions"
 
-    - name: Oh-My-Zsh 256 color support 
+    - name: Oh-My-Zsh 256 color support
       ansible.builtin.git:
-        repo: https://github.com/chrissicool/zsh-256color.git 
+        repo: https://github.com/chrissicool/zsh-256color.git
         dest: "/Users/{{ lookup('env', 'USER') }}/.oh-my-zsh/plugins/zsh-256color"
 
-    - name: Install gke-gcloud-auth-plugin 
+    - name: Install gke-gcloud-auth-plugin
       shell: gcloud components install gke-gcloud-auth-plugin --quiet
